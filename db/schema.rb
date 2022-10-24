@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2022_10_24_185822) do
 
   create_table "commodities", force: :cascade do |t|
+    t.integer "supermarket_id"
     t.string "name"
     t.string "amount"
     t.float "price"
