@@ -2,10 +2,10 @@ class Supermarket < ActiveRecord::Base
 
     has_many :commodities
     has_and_belongs_to_many :areas
-    
-    after_initialize :assign_supermarkets
 
-    def assign_supermarkets
+    after_create :assign_areas
+    
+    def assign_areas
         for a in Area.all
             if self.zipcode == a.zipcode
                 self.areas << a
@@ -25,14 +25,16 @@ class Supermarket < ActiveRecord::Base
     end
 
     def compare_prices
+        array_of_strings = []
         for c in self.commodities
             price_diff = c.price - Supermarket.get_avg_prices["#{c.amount} #{c.name}"]
             if price_diff < 0
-                puts "#{c.amount} #{c.name} costs #{-price_diff} less than the average here"
+                array_of_strings << "#{c.amount} #{c.name} costs #{-price_diff} less than the average here"
             else 
-                puts "#{c.amount} #{c.name} costs #{price_diff} more than the average here"
+                array_of_strings << "#{c.amount} #{c.name} costs #{price_diff} more than the average here"
             end
         end
+        return array_of_strings
     end
 
     def price_index
@@ -41,6 +43,7 @@ class Supermarket < ActiveRecord::Base
             sum += c.price - Supermarket.get_avg_prices["#{c.amount} #{c.name}"]
             puts sum
         end
-        return sum/self.commodities.size
+        return (sum/self.commodities.size).round(4)
     end
+
 end
