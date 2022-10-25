@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_24_185822) do
+ActiveRecord::Schema.define(version: 2022_10_25_145217) do
+
+  create_table "areas", force: :cascade do |t|
+    t.integer "zipcode"
+    t.string "adjacent_zipcodes"
+  end
+
+  create_table "areas_supermarkets", id: false, force: :cascade do |t|
+    t.integer "area_id", null: false
+    t.integer "supermarket_id", null: false
+  end
 
   create_table "commodities", force: :cascade do |t|
     t.integer "supermarket_id"
