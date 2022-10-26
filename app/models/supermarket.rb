@@ -3,7 +3,8 @@ class Supermarket < ActiveRecord::Base
     has_many :commodities
     has_and_belongs_to_many :areas
 
-    after_create :assign_areas
+    after_create :assign_areas, :set_price_index
+
     
     def assign_areas
         for a in Area.all
@@ -44,6 +45,10 @@ class Supermarket < ActiveRecord::Base
             puts sum
         end
         return (sum/self.commodities.size).round(4)
+    end
+
+    def set_price_index
+        self.update(price_index: self.price_index)
     end
 
 end
