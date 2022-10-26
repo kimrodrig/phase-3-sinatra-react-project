@@ -45,4 +45,37 @@ class ApplicationController < Sinatra::Base
     area.supermarkets.to_json
   end
 
+  #methods
+  get "/areas/zipcode/:zipcode/supermarkets" do
+    results = Area.search_by_zipcode(params[:zipcode])
+    results.to_json
+  end
+
+  post "/supermarkets" do
+    supermarket = Supermarket.new_supermarket(
+      params[:name],
+      params[:zipcode],
+      params[:price_of_eggs],
+      params[:price_of_milk],
+      params[:price_of_flour]
+    )
+    supermarket.to_json
+  end
+
+  patch "/supermarkets/:id" do
+    supermarket = Supermarket.find(params[:id])
+    supermarket.update_prices(
+      params[:price_of_eggs],
+      params[:price_of_milk],
+      params[:price_of_flour]
+    )
+    supermarket.to_json
+  end
+
+  delete "/supermarkets/:id" do
+    supermarket = Supermarket.find(params[:id])
+    supermarket.destroy
+    supermarket.to_json
+  end
+
 end

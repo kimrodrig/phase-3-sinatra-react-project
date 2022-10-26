@@ -5,7 +5,6 @@ class Supermarket < ActiveRecord::Base
 
     after_create :assign_areas, :set_price_index
 
-    
     def assign_areas
         for a in Area.all
             if self.zipcode == a.zipcode
@@ -39,16 +38,34 @@ class Supermarket < ActiveRecord::Base
     end
 
     def price_index
-        sum = 0
-        for c in self.commodities
-            sum += c.price - Supermarket.get_avg_prices["#{c.amount} #{c.name}"]
-            puts sum
+        if self.commodities.size > 0
+            sum = 0
+            for c in self.commodities
+                sum += c.price - Supermarket.get_avg_prices["#{c.amount} #{c.name}"]
+                puts sum
+            end
+            return (sum/self.commodities.size).round(4)
         end
-        return (sum/self.commodities.size).round(4)
     end
 
     def set_price_index
         self.update(price_index: self.price_index)
+    end
+
+    #create new supermarket
+    def self.new_supermarket(name, zipcode, price_of_eggs, price_of_milk, price_of_flour)
+        s = Supermarket.create(name: name, zipcode: zipcode)
+        s.commodities << Commodity.create(name: "eggs", amount: "1 dozen", price: price_of_eggs)
+        s.commodities << Commodity.create(name: "milk", amount: "1 gallon", price: price_of_milk)
+        s.commodities << Commodity.create(name: "flour", amount: "5 pounds", price: price_of_flour)
+        s.set_price_index
+    end
+
+    #update prices at a supermarket
+    def update_prices(price_of_eggs, price_of_milk, price_of_flour)
+        self.commodities.first.update(price: price_of_eggs)
+        self.commodities.second.update(price: price_of_milk)
+        self.commodities.third.update(price: price_of_flour)
     end
 
 end

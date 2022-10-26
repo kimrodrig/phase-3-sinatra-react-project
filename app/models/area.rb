@@ -6,8 +6,13 @@ class Area < ActiveRecord::Base
         adjacent_zipcodes.split.map{|el| el.to_i}
     end
 
+    # returns cheapest supermarket first
     def self.search_by_zipcode zipcode
-        self.all.find_by(zipcode: zipcode).supermarkets
+        if self.all.find_by(zipcode: zipcode) == nil
+            puts nil
+        else
+            self.all.find_by(zipcode: zipcode).supermarkets.order(:price_index)
+        end
     end
 
 end
