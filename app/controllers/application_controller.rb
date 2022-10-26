@@ -26,6 +26,11 @@ class ApplicationController < Sinatra::Base
     supermarket.compare_prices.to_json
   end
 
+  get "/supermarkets/:id/price_index" do
+    supermarket = Supermarket.find(params[:id])
+    supermarket.price_index.to_json
+  end
+
   get "/supermarkets/:id/areas" do
     supermarket = Supermarket.find(params[:id])
     supermarket.areas.to_json
@@ -46,7 +51,7 @@ class ApplicationController < Sinatra::Base
   end
 
   #methods
-  get "/areas/zipcode/:zipcode/supermarkets" do
+  get "/supermarkets/byarea/:zipcode" do
     results = Area.search_by_zipcode(params[:zipcode])
     results.to_json
   end
