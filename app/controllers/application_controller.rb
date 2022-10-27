@@ -74,6 +74,7 @@ class ApplicationController < Sinatra::Base
       params[:price_of_milk],
       params[:price_of_flour]
     )
+    supermarket.update_other_locations_to_self
     supermarket.to_json
   end
 

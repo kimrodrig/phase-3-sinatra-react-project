@@ -59,7 +59,38 @@ class Supermarket < ActiveRecord::Base
         end
     end
 
-    #create new supermarket
+
+    #check if franchise already exists
+    def self.franchise_exists? name
+        if Supermarket.all.find_by(name: name)
+            return true
+        else 
+            return false
+        end
+    end
+
+    #update according to other franchise
+    def update_self_to_franchise
+        if Supermarket.franchise_exists? self.name
+            s = Supermarket.find_by(name: self.name)
+            self.commodities.first.update(price: s.commodities.first.price)
+            self.commodities.second.update(price: s.commodities.second.price)
+            self.commodities.third.update(price: s.commodities.third.price)
+            self.set_price_index
+        end
+    end
+
+    def update_other_locations_to_self
+        for s in Supermarket.all do
+            if s.name == self.name
+                s.commodities.first.update(price: self.commodities.first.price)
+                s.commodities.second.update(price: self.commodities.second.price)
+                s.commodities.third.update(price: self.commodities.third.price)
+            end
+        end
+    end
+
+    #create a completely new supermarket
     def self.new_supermarket(name, zipcode, price_of_eggs, price_of_milk, price_of_flour)
         s = Supermarket.create(name: name, zipcode: zipcode)
         s.commodities << Commodity.create(name: "eggs", amount: "1 dozen", price: price_of_eggs)
@@ -67,6 +98,15 @@ class Supermarket < ActiveRecord::Base
         s.commodities << Commodity.create(name: "flour", amount: "5 pounds", price: price_of_flour)
         s.set_price_index
     end
+
+    # #new supermarket
+    # def self.new_supermarket(name, zipcode, price_of_eggs, price_of_milk, price_of_flour)
+    #     if self.franchise_exists?(name)
+    #         self.new_store(name, zipcode)
+    #     else 
+    #         self.new_franchise(name, zipcode, price_of_eggs, price_of_milk, price_of_flour)
+    #     end
+    # end
 
     #update prices at a supermarket
     def update_prices(price_of_eggs, price_of_milk, price_of_flour)
@@ -82,4 +122,5 @@ class Supermarket < ActiveRecord::Base
         end
         self.destroy
     end
+
 end

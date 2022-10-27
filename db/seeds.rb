@@ -17,17 +17,34 @@ Area.create(zipcode: 10048, adjacent_zipcodes: "10006 10007")
 puts "Creating Supermarkets..."
 
 Supermarket.create(name: 'Whole Foods', zipcode: 10002)
+Supermarket.create(name: 'Whole Foods', zipcode: 10003)
+Supermarket.create(name: 'Whole Foods', zipcode: 10007)
+Supermarket.create(name: 'Trader Joe\'s', zipcode: 10002)
 Supermarket.create(name: 'Trader Joe\'s', zipcode: 10013)
+Supermarket.create(name: 'Trader Joe\'s', zipcode: 10003)
+Supermarket.create(name: 'Trader Joe\'s', zipcode: 10009)
 Supermarket.create(name: 'Gristedes', zipcode: 10014)
+Supermarket.create(name: 'Gristedes', zipcode: 10003)
+Supermarket.create(name: 'Union Market', zipcode: 10002)
+Supermarket.create(name: 'Gourmet Garage', zipcode: 10013)
+Supermarket.create(name: 'H Mart', zipcode: 10003)
+Supermarket.create(name: 'Target Grocery', zipcode: 10002)
+Supermarket.create(name: 'Target Grocery', zipcode: 100012)
+Supermarket.create(name: 'Target Grocery', zipcode: 10007)
+Supermarket.create(name: 'Target Grocery', zipcode: 10009)
 
 
 
 puts "Creating Commodities..."
 
-3.times do |i|
+16.times do |i|
     Commodity.create(supermarket_id: i+1, amount: "1 dozen", name: "eggs", price: rand(2.5..8.0).round(2))
     Commodity.create(supermarket_id: i+1, amount: "1 gallon", name: "milk", price: rand(2.5..8.0).round(2))
     Commodity.create(supermarket_id: i+1, amount: "5 pounds", name: "flour", price: rand(2.5..8.0).round(2))
+end
+
+16.times do |i|
+    Supermarket.find(i+1).update_self_to_franchise
 end
 
 puts "Seeding done"
