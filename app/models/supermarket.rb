@@ -5,6 +5,10 @@ class Supermarket < ActiveRecord::Base
 
     after_create :assign_areas, :set_price_index
 
+    def self.ordered_supermarkets
+        return self.order(:price_index)
+    end
+
     def assign_areas
         for a in Area.all
             if self.zipcode == a.zipcode
@@ -48,8 +52,11 @@ class Supermarket < ActiveRecord::Base
         end
     end
 
+    #reset every price index
     def set_price_index
-        self.update(price_index: self.price_index)
+        for s in Supermarket.all
+            s.update(price_index: s.price_index)
+        end
     end
 
     #create new supermarket
@@ -68,4 +75,11 @@ class Supermarket < ActiveRecord::Base
         self.commodities.third.update(price: price_of_flour)
     end
 
+    #destroy supermarket and its commodities
+    def delete
+        for c in self.commodities do 
+            c.destroy
+        end
+        self.destroy
+    end
 end

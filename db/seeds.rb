@@ -1,13 +1,4 @@
 
-
-puts "Creating Commodities..."
-
-3.times do |i|
-    Commodity.create(supermarket_id: i+1, amount: "1 dozen", name: "eggs", price: rand(2.5..8.0).round(2))
-    Commodity.create(supermarket_id: i+1, amount: "1 gallon", name: "milk", price: rand(2.5..8.0).round(2))
-    Commodity.create(supermarket_id: i+1, amount: "5 pounds", name: "flour", price: rand(2.5..8.0).round(2))
-end
-
 puts "Creating Areas..."
 
 Area.create(zipcode: 10002, adjacent_zipcodes: "10038 10013 10012 10003 10009")
@@ -28,6 +19,16 @@ puts "Creating Supermarkets..."
 Supermarket.create(name: 'Whole Foods', zipcode: 10002)
 Supermarket.create(name: 'Trader Joe\'s', zipcode: 10013)
 Supermarket.create(name: 'Gristedes', zipcode: 10014)
+
+
+
+puts "Creating Commodities..."
+
+3.times do |i|
+    Commodity.create(supermarket_id: i+1, amount: "1 dozen", name: "eggs", price: rand(2.5..8.0).round(2))
+    Commodity.create(supermarket_id: i+1, amount: "1 gallon", name: "milk", price: rand(2.5..8.0).round(2))
+    Commodity.create(supermarket_id: i+1, amount: "5 pounds", name: "flour", price: rand(2.5..8.0).round(2))
+end
 
 puts "Seeding done"
 

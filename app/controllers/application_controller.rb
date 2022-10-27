@@ -8,7 +8,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/supermarkets" do
-    Supermarket.all.to_json
+    Supermarket.ordered_supermarkets.to_json
   end
 
   get "/supermarkets/:id" do
@@ -79,7 +79,7 @@ class ApplicationController < Sinatra::Base
 
   delete "/supermarkets/:id" do
     supermarket = Supermarket.find(params[:id])
-    supermarket.destroy
+    supermarket.delete
     supermarket.to_json
   end
 
