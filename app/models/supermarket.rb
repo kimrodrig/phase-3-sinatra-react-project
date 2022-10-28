@@ -33,9 +33,9 @@ class Supermarket < ActiveRecord::Base
         for c in self.commodities
             price_diff = c.price - Supermarket.get_avg_prices["#{c.amount} #{c.name}"]
             if price_diff < 0
-                array_of_strings << "#{c.amount} #{c.name} costs #{-price_diff} less than the average here"
+                array_of_strings << "#{c.amount} #{(c.name == 'eggs' ? '' : 'of ')}#{c.name} cost#{(c.amount[0].to_i > 1) ? '' : 's'} $#{-price_diff} less than the average here."
             else 
-                array_of_strings << "#{c.amount} #{c.name} costs #{price_diff} more than the average here"
+                array_of_strings << "#{c.amount} #{(c.name == 'eggs' ? '' : 'of ')}#{c.name} cost#{(c.amount[0].to_i > 1) ? '' : 's'} $#{price_diff} more than the average here."
             end
         end
         return array_of_strings
@@ -96,17 +96,9 @@ class Supermarket < ActiveRecord::Base
         s.commodities << Commodity.create(name: "eggs", amount: "1 dozen", price: price_of_eggs)
         s.commodities << Commodity.create(name: "milk", amount: "1 gallon", price: price_of_milk)
         s.commodities << Commodity.create(name: "flour", amount: "5 pounds", price: price_of_flour)
+        s.update_other_locations_to_self
         s.set_price_index
     end
-
-    # #new supermarket
-    # def self.new_supermarket(name, zipcode, price_of_eggs, price_of_milk, price_of_flour)
-    #     if self.franchise_exists?(name)
-    #         self.new_store(name, zipcode)
-    #     else 
-    #         self.new_franchise(name, zipcode, price_of_eggs, price_of_milk, price_of_flour)
-    #     end
-    # end
 
     #update prices at a supermarket
     def update_prices(price_of_eggs, price_of_milk, price_of_flour)

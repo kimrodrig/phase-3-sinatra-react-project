@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 2022_10_25_145217) do
     t.integer "supermarket_id"
     t.string "name"
     t.string "amount"
-    t.float "price"
+    t.float "price" 
   end
 
   create_table "supermarkets", force: :cascade do |t|

@@ -29,7 +29,7 @@ Supermarket.create(name: 'Union Market', zipcode: 10002)
 Supermarket.create(name: 'Gourmet Garage', zipcode: 10013)
 Supermarket.create(name: 'H Mart', zipcode: 10003)
 Supermarket.create(name: 'Target Grocery', zipcode: 10002)
-Supermarket.create(name: 'Target Grocery', zipcode: 100012)
+Supermarket.create(name: 'Target Grocery', zipcode: 10012)
 Supermarket.create(name: 'Target Grocery', zipcode: 10007)
 Supermarket.create(name: 'Target Grocery', zipcode: 10009)
 
